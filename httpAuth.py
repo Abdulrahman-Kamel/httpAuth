@@ -20,7 +20,11 @@ from concurrent.futures import ThreadPoolExecutor as PoolExecutor
 parser_arg_menu = argparse.ArgumentParser(prog='tool', formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=40)
 )
 parser_arg_menu.add_argument(
-"-u" , "--urls" , help="File contain urls Ex: urls.txt",
+"-u" , "--url" , help="unique url to testing",
+metavar=""
+)
+parser_arg_menu.add_argument(
+"-us" , "--urls" , help="File contain urls Ex: urls.txt",
 metavar=""
 )
 parser_arg_menu.add_argument(
@@ -110,6 +114,9 @@ arg_proxies = _filter('wordlists/proxies-raw.txt') if arg_menu.proxies == 'defau
 randomProxy = random.choices(arg_proxies,k=1)[0] if arg_proxies != None else None 
 proxy = {"http": randomProxy, "https": randomProxy}
 
+# sorting urls&filter
+_urls = _filter(arg_menu.urls) if arg_menu.urls else _filter(arg_menu.url) #if arg_menu.url else None
+
 def run(single_url):
 
     auth_creds = open(arg_menu.creds if arg_menu.creds else 'wordlists/default-creds.txt' , 'r')
@@ -141,16 +148,14 @@ def run(single_url):
 
 if __name__ == "__main__":
 
-    if not arg_menu.urls:
-        print("-u, --urls needed")
+    if not (arg_menu.urls or arg_menu.url):
+        print("-us, --urls OR -u, --url Required")
         exit(1)
 
     print(banner)
-    with open(arg_menu.urls, 'r') as f:
-        urls_list = [line.rstrip() for line in f]
 
     with PoolExecutor(max_workers=max_threads) as executor:
-        for _ in executor.map(run, urls_list):
+        for _ in executor.map(run, _urls):
             pass
 
     # close creds file
