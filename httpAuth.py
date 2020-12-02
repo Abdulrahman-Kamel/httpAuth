@@ -10,7 +10,7 @@ import urllib3
 import random
 import time
 import base64
-from os import path
+import os
 from sys import exit
 from concurrent.futures import ThreadPoolExecutor as PoolExecutor
 
@@ -40,7 +40,7 @@ parser_arg_menu.add_argument(
 metavar=""
 )
 parser_arg_menu.add_argument(
-"-T", "--timeout" , help="Timeout if delay request",
+"-T", "--timeout" , help="Timeout if delay request, Default is 1",
 metavar=""
 )
 parser_arg_menu.add_argument(
@@ -56,9 +56,9 @@ parser_arg_menu.add_argument(
 metavar=""
 )
 arg_menu      = parser_arg_menu.parse_args()
-max_threads   = int(arg_menu.threads) if arg_menu.threads else int(30)
-max_sleep     = int(arg_menu.sleep) if arg_menu.sleep else int(1)
-max_timeout   = int(arg_menu.timeout) if arg_menu.timeout else int(30)
+max_threads   = int(arg_menu.threads)   if arg_menu.threads else int(30)
+max_sleep     = int(arg_menu.sleep)     if arg_menu.sleep else int(1)
+max_timeout   = int(arg_menu.timeout)   if arg_menu.timeout else int(30)
 
 #======================= End Arguments  =====================
 
@@ -86,6 +86,17 @@ banner ='\033[91m'+"""
 # disaple ssl checks
 urllib3.disable_warnings()
 
+# update wordlists/proxies-raw.txt
+def update_proxiesFile():
+    try: os.remove('wordlists/proxies-raw.txt')
+    except: pass
+    try:
+        response = requests.get('https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list-raw.txt', allow_redirects=True)
+        if str(response.status_code)[0] ==  '2':
+            open('wordlists/proxies-raw.txt', 'wb').write(response.content)
+    except Exception as er:
+        print('\nMissing configs/proxies-raw.txt, can`t download it\nplease download from this repo: https://github.com/clarketm/proxy-list\nThen move here by the same name configs/proxies-raw.txt\n')
+
 def output(save, line):
     a_file = open(save, 'a+')
     a_file.writelines(line)
@@ -94,7 +105,7 @@ def output(save, line):
 def _filter(value):
     if value is not None:
 
-        if path.isfile(value) == True:
+        if os.path.isfile(value) == True:
             with open(value) as _file:
                 value = [line.rstrip() for line in _file]
 
@@ -153,6 +164,9 @@ if __name__ == "__main__":
         exit(1)
 
     print(banner)
+
+    # update default proxies file
+    update_proxiesFile()
 
     with PoolExecutor(max_workers=max_threads) as executor:
         for _ in executor.map(run, _urls):
