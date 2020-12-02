@@ -20,7 +20,7 @@ short arg     | long arg      | Description
 -o            | --output      | save success results in file
 -h            | --help        | show the help message and exit
 
-if you want use multiple proxy ==> seperator via [,]
+if you want use multiple proxy ==> seperator via [,] or choose file
 
 ## Examples
 - Default usage
