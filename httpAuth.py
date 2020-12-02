@@ -57,7 +57,7 @@ metavar=""
 )
 arg_menu      = parser_arg_menu.parse_args()
 max_threads   = int(arg_menu.threads) if arg_menu.threads else int(30)
-max_sleep     = int(arg_menu.sleep) if arg_menu.sleep else int(5)
+max_sleep     = int(arg_menu.sleep) if arg_menu.sleep else int(1)
 max_timeout   = int(arg_menu.timeout) if arg_menu.timeout else int(30)
 
 #======================= End Arguments  =====================
