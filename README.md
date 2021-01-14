@@ -35,7 +35,3 @@ python3 httpAuth.py -us https.txt -p '198.168.1.1:8080,198.168.1.79:8080'
 ```python
 python3 httpAuth.py -us https.txt --threads 200 --timeout 10 --sleep 5 -p proxies_file.txt
 ```
-- try many testing
-```python
-python3 httpAuth.py --urls https.txt --threads 200 --timeout 10 -m
-```
