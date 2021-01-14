@@ -1,5 +1,5 @@
 ## About script
-this tool make bruteforce on multiple urls in short time <br> 
+this tool make bruteforce HTTP Authentication Creds on multiple urls in short time <br> 
 the tool have argument -p, --proxies , this arg will use proxies to skip block, can use one or multiple via file and will found default proxies file in wordlists directory please choose -p 'default' to use it <br>
 NOTIC: wordlists/proxies-raw.txt file , It is updated every time run tool and contains larger of 400 valid proxy
 
