@@ -1,6 +1,6 @@
 ## About script
 make bruteforce on HTTP-Authentication creditional on multiple urls in short time <br> 
-the tool have argument -p, --proxies , this argument will use proxies to skip block, can use one or multiple via file , will found default proxies file in wordlists directory only choose -p 'default' to use it <br>
+the tool have argument -p, --proxies , this argument will use proxies to skip block, can use one or multiple via file , will found default proxies file in wordlists directory only choose -p 'default' to use it <br> <br>
 NOTIC: wordlists/proxies-raw.txt file , It is updated every time run tool and contains larger of 400 valid proxy
 
 ## Installation
