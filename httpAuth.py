@@ -137,19 +137,21 @@ def run(single_url):
             creds = creds.strip()
             base64_creds= base64.b64encode(creds.encode('ascii')).decode('ascii')
 
-            response = requests.post(single_url, verify=False, timeout=max_timeout, headers = {"Authorization" : "Basic %s" % base64_creds}, proxies=proxy if arg_menu.proxies else None)
+            response = requests.get(single_url, verify=False, timeout=max_timeout, headers = {"Authorization" : "Basic %s" % base64_creds,"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:99.0) Gecko/20100101 Firefox/99.0","Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8"}, proxies=proxy if arg_menu.proxies else None)
             
             if response.status_code == 503:
                 print(color.red + "The server ["+response.url+"] Response 503 [unable to handle the request]" + color.end)
                 break
 
-            if arg_menu.view:
-                print(color.green + 'Failed try: '+str(response.status_code)+' ['+ creds +'] ' + response.url + '\t' +color.end)
-
             if str(response.status_code)[0] in ['2', '3']:
                 print(color.red + '[+] Success '+color.end +color.red+ creds +color.end+ ' '*3 +color.green+ response.url + '\t' + str(response.status_code)+ color.end)
                 if arg_menu.output:
                     output(arg_menu.output , '[+] '+ creds + ' '*3 + response.url + ' [' +str(response.status_code)+ ']\n')
+                return True
+
+            if arg_menu.view:
+                print(color.green + 'Failed try: '+str(response.status_code)+' ['+ creds +'] ' + response.url + '\t' +color.end)
+
 
             time.sleep(max_sleep)
 
@@ -173,7 +175,7 @@ if __name__ == "__main__":
             pass
 
     # close creds file
-    open(arg_menu.creds , 'r').close()
+    # open(arg_menu.creds , 'r').close()
 
     # close urls file
-    open(arg_menu.urls , 'r').close()
+    # open(arg_menu.urls , 'r').close()
