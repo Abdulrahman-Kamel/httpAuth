@@ -1,3 +1,6 @@
+tmp:tmp
+user:user
+usr:usr
 admin:admin
 root:root
 root:admin
